@@ -155,9 +155,9 @@ my $nl = scalar(keys %data_loc);
 
 my @offspring = sort {$a <=> $b} grep { $par_offs{$_} =~ m/^O\d+/ } keys %par_offs;
 @offspring = grep { $data_ind{$_} } @offspring;
-my @mothers = sort {$a <=> $b} grep { $par_offs{$_} =~ m/^M\d+/ } keys %par_offs;
+my @mothers = sort {$a <=> $b} grep { $par_offs{$_} =~ m/^F\d+/ } keys %par_offs;
 @mothers = grep { $data_ind{$_} } @mothers;
-my @fathers = sort {$a <=> $b} grep { $par_offs{$_} =~ m/^F\d+/ } keys %par_offs;
+my @fathers = sort {$a <=> $b} grep { $par_offs{$_} =~ m/^M\d+/ } keys %par_offs;
 @fathers = grep { $data_ind{$_} } @fathers;
 my $no = scalar(@offspring);
 
@@ -174,11 +174,11 @@ if ($warn == 0){
 # Prepare output
 
 my $output = 
-sprintf("%-12s", $name) . "! Dataset name\n" .
-sprintf("%-12s", $name) . "! Output file name\n" .
-sprintf("%-12s", $no) .   "! Number of offspring in the sample\n" .
-sprintf("%-12s", $nl) .   "! Number of loci\n" .
-sprintf("%-12s", $rn) .   "! Seed for random number generator\n" .
+sprintf("%-12s", $name) . " ! Dataset name\n" .
+sprintf("%-12s", $name) . " ! Output file name\n" .
+sprintf("%-12s", $no) .   " ! Number of offspring in the sample\n" .
+sprintf("%-12s", $nl) .   " ! Number of loci\n" .
+sprintf("%-12s", $rn) .   " ! Seed for random number generator\n" .
 "0           ! 0/1=Not updating/updating allele frequency
 2           ! 2/1=Dioecious/Monoecious species
 0           ! 0/1=No inbreeding/inbreeding
@@ -250,18 +250,6 @@ elsif (scalar(@mothers) == 0 and scalar(@fathers) != 0){
 	$output .= scalar(@fathers) . "  " . scalar(@mothers) . "     ! numbers of candiadte males & females\n\n";
 }
 
-if (scalar(@mothers) != 0){
-	for $mums (@mothers){
-		if ($data_ind{$mums}){
-			my @line = split //, $data_ind{$mums};
-			unshift @line, $par_offs{$mums};
-			$output .= join("", map { sprintf("% 5s", $_) } @line) . "\n";
-		}
-	}
-	$output .= "\n";
-}
-
-
 if (scalar(@fathers) != 0){
 	for $fath (@fathers){
 		if ($data_ind{$fath}){
@@ -272,6 +260,16 @@ if (scalar(@fathers) != 0){
 	}
 }
 
+if (scalar(@mothers) != 0){
+	for $mums (@mothers){
+		if ($data_ind{$mums}){
+			my @line = split //, $data_ind{$mums};
+			unshift @line, $par_offs{$mums};
+			$output .= join("", map { sprintf("% 5s", $_) } @line) . "\n";
+		}
+	}
+	$output .= "\n";
+}
 
 $output .= "
 
@@ -304,7 +302,7 @@ $output .= "
 open(OUT, "> $name.txt");
 print OUT $output;
 close OUT;
-print "done. :-)\n";
+print "done. ;‹)\n";
 
 # subroutines
 
