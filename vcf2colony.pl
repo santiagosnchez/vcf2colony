@@ -126,7 +126,7 @@ while(<VCF>){
 		}
 		$locn += 1;
 		push @loci, "LOCUS.$locn";
-		$loc_tran{"LOCUS.$locn"} = "$DAT[0]:$DAT[1]";
+		$loc_tran{"LOCUS.$locn"} = join(":",@DAT[0..4]);
 		@genind = ($gentmp =~ m/(\d\d)/g);
 		foreach (0 .. $#indiv){
 			$data_ind{$indiv[$_]} .= $genind[$_];
